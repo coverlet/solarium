@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 
 const HomePage = () => {
   return (
-    <div>Hello from Solarium.</div>
+    <div>Hello from Solarium!</div>
   );
 };
 
