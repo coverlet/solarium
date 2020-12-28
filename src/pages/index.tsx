@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCount, setCount } from '../redux/app';
+import { Button } from 'rsuite';
 import styles from './index.module.scss';
 
 const HomePage = (): ReactElement => {
@@ -8,14 +9,15 @@ const HomePage = (): ReactElement => {
   const dispatch = useDispatch();
   return (
     <div>
-      Hello from Solarium.
-      <button
+      Hello from
+      <Button
         onClick={() => {
           dispatch(setCount(count + 1));
         }}
+        // appearance="primary"
       >
-        {count}
-      </button>
+        Solarium {count}
+      </Button>
     </div>
   );
 };

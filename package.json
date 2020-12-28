@@ -9,13 +9,15 @@
     "lint": "eslint src --ext .ts,.tsx --fix"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.4.0",
+    "@zeit/next-less": "^1.0.1",
     "next": "10.0.0",
+    "next-redux-wrapper": "^6.0.2",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "@reduxjs/toolkit": "^1.4.0",
-    "next-redux-wrapper": "^6.0.2",
     "react-redux": "^7.2.2",
     "redux-thunk": "^2.3.0",
+    "rsuite": "^4.8.6",
     "sass": "^1.28.0"
   },
   "devDependencies": {
@@ -30,6 +32,7 @@
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^4.3.6",
+    "less": "^3.13.1",
     "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",
     "typescript": "^4.0.5"
