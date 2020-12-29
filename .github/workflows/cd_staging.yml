@@ -50,6 +50,7 @@ jobs:
       - name: Restart PM2 server
         uses: JimCronqvist/action-ssh@master
         with:
-          hosts: '${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}'
-          privateKey: ${{ secrets.PRIVATE_KEY }}
           command: pm2 restart 0    
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          privateKey: ${{ secrets.SERVER_SSH_KEY }} 
