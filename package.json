@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
+    "@solana/web3.js": "^0.88.0",
     "@zeit/next-less": "^1.0.1",
     "next": "10.0.0",
     "next-redux-wrapper": "^6.0.2",
