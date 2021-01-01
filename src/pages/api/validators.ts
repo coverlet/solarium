@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getHttpClient } from '../../client/solrpc';
 import { getClient } from '../../client/web3sol';
 import { CONFIG_PROGRAM_ADDRESS } from '../../config/constants';
+import { cache } from '../../utils/cache';
 
 interface IValidatorInfo extends VoteAccountInfo {
   deliquent: boolean;
@@ -70,23 +71,38 @@ const getValidatorInfo = (cluster) => {
     });
 };
 
+const getValidatorsSet = (cluster: string): Promise<IValidatorInfo[]> => {
+  return new Promise((resolve) => {
+    const cacheKey = `validators-${cluster}`;
+    const validators = cache.get(cacheKey) as IValidatorInfo[];
+    if (validators == undefined) {
+      console.log('fetching validators');
+      Promise.all([getValidators(cluster), getValidatorInfo(cluster)]).then((data) => {
+        data[0].forEach((validator, i) => {
+          if (data[1][validator.nodePubkey]) {
+            data[0][i].info = data[1][validator.nodePubkey];
+          }
+        });
+
+        cache.set(cacheKey, data[0]);
+        resolve(data[0]);
+      });
+    } else {
+      console.log('got from cache');
+      resolve(validators);
+    }
+  });
+};
+
 export default (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void | Record<string, unknown>> => {
   console.log(req.query.cluster);
 
-  // TODO proper error management
-  return Promise.all([getValidators(req.query.cluster), getValidatorInfo(req.query.cluster)]).then(
-    (data) => {
-      data[0].forEach((validator, i) => {
-        if (data[1][validator.nodePubkey]) {
-          data[0][i].info = data[1][validator.nodePubkey];
-        }
-      });
-
-      res.statusCode = 200;
-      res.json(data[0]);
-    }
-  );
+  return getValidatorsSet(req.query.cluster as string).then((data) => {
+    // TODO proper error management
+    res.statusCode = 200;
+    res.json(data[0]);
+  });
 };
