@@ -1,4 +1,4 @@
-name: CD Staging
+name: PR Checks
 
 on:
   push:
