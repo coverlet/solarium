@@ -3,5 +3,6 @@ export interface IRedux {
 }
 
 export interface IApp {
+  cluster: string;
   count: number;
 }

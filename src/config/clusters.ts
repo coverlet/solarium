@@ -16,6 +16,8 @@ export const clusters: { [key: string]: ICluster } = {
   },
 };
 
+export const defaultCluster = 'devnet';
+
 interface ICluster {
   displayName: string;
   url: string;

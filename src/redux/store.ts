@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import appReducer from './app';
 
 // TODO MAYBE REMOVE SS Redux
-// TODO check this out
+// wtf was that??
 
 export default configureStore({
   reducer: {
