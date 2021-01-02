@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    name: CD Staging
     runs-on: ubuntu-latest
 
     steps:
