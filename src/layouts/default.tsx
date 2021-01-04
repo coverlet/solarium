@@ -4,7 +4,7 @@ import { SolHeader } from '../components/sol-header/sol-header';
 import { SolFooter } from '../components/sol-footer/sol-footer';
 import Head from 'next/head';
 
-import styles from './default.module.scss';
+import './default.module.scss';
 
 interface IDefaultLayoutProps {
   children: ReactElement;
@@ -25,7 +25,7 @@ export const DefaultLayout = ({
           rel="stylesheet"
         />
       </Head>
-      <Container className={styles['main-container']}>
+      <Container className="main-container">
         <SolHeader />
         <Content>{children}</Content>
         <SolFooter />

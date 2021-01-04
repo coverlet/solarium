@@ -4,7 +4,7 @@ import { selectCluster } from '../../redux/app';
 import { fetchValidators, selectValidators, selectValidatorsLoading } from '../../redux/validators';
 import { Placeholder } from 'rsuite';
 
-import styles from './validators-list.module.scss';
+import './validators-list.module.scss';
 
 export const ValidatorsList = (): ReactElement => {
   const dispatch = useDispatch();
@@ -18,34 +18,34 @@ export const ValidatorsList = (): ReactElement => {
   }, [cluster, dispatch]);
 
   return (
-    <div>
+    <div className="validatos-list">
       Validators
       {validatorsLoading && (
         <>
           <Placeholder.Paragraph
-            className={styles.placeholder}
+            className="placeholder"
             rowMargin={14}
             graph="circle"
-            active
+            active={true}
           />
           <Placeholder.Paragraph
-            className={styles.placeholder}
+            className="placeholder"
             rowMargin={14}
             graph="circle"
-            active
+            active={true}
           />
           <Placeholder.Paragraph
-            className={styles.placeholder}
+            className="placeholder"
             rowMargin={14}
             graph="circle"
-            active
+            active={true}
           />
         </>
       )}
       {!validatorsLoading && (
         <div>
           {validators.map((validator) => (
-            <div key={`${cluster}_${validator.nodePubkey}`}>{validator.nodePubkey}</div>
+            <div key={`${cluster}_${validator.account}`}>{validator.account}</div>
           ))}
         </div>
       )}

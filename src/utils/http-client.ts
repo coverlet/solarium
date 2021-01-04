@@ -1,14 +1,25 @@
-const defaultHeaders = {
+export interface IHttpClientOptions {
+  headers?: HeadersInit;
+}
+
+const defaultHeaders: HeadersInit = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
 };
 
 export class HttpClient {
   private lastId = 0;
-  constructor(private url: string) {}
+  private headers = defaultHeaders;
+
+  constructor(private url: string, private options?: IHttpClientOptions) {
+    this.headers = { ...defaultHeaders, ...(options?.headers || {}) };
+  }
 
   public get(path: string): Promise<any> {
-    return fetch(this.url + path).then(async (res) => {
+    return fetch(this.url + path, {
+      method: 'GET',
+      headers: this.headers,
+    }).then(async (res) => {
       const response = await res.json();
       //  console.log('RPC client', 'response', response);
       return response;
@@ -18,7 +29,7 @@ export class HttpClient {
   public post(path: string, body: Record<string, unknown>): Promise<any> {
     return fetch(this.url + path, {
       method: 'POST',
-      headers: defaultHeaders,
+      headers: this.headers,
       body: JSON.stringify(body),
     }).then((response) => {
       return response.json();

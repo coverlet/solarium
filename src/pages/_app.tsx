@@ -4,8 +4,7 @@ import store from '../redux/store';
 import { AppProps } from 'next/app';
 import { DefaultLayout } from '../layouts/default';
 
-// HACK replace this with proper globals file when fixed
-import '../style/globals.scss';
+import '../style/main.scss';
 import '../style/custom-theme.less';
 
 function MyApp({ Component, pageProps }: AppProps): ReactElement {

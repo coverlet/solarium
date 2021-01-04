@@ -45,7 +45,7 @@ jobs:
       - name: Restart PM2 server
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: pm2 restart 0    
+          command: VALIDATORS_APP_TOKEN=${{ secrets.VALIDATORS_APP_TOKEN }} pm2 restart 0  --update-env   
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           privateKey: ${{ secrets.SERVER_SSH_KEY }} 

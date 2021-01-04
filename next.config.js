@@ -19,7 +19,7 @@ module.exports = withPlugins(
     [
       withSass,
       {
-        cssModules: true,
+        cssModules: false,
       },
     ],
   ],
