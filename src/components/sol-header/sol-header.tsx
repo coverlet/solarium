@@ -5,12 +5,10 @@ import { clusters } from '../../config/clusters';
 import { selectCluster, setCluster } from '../../redux/app';
 
 import styles from './sol-header.module.scss';
-console.log(clusters);
+
 export const SolHeader = (): ReactElement => {
   const cluster = useSelector(selectCluster);
   const dispatch = useDispatch();
-  console.log('-----------');
-  console.log(cluster);
   return (
     <div className={styles['header']}>
       <div className={styles['logo']}>Solarium</div>

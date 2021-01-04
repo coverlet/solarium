@@ -8,7 +8,6 @@ export class HttpClient {
   constructor(private url: string) {}
 
   public get(path: string): Promise<any> {
-    // console.log('RPC client', 'request', request);
     return fetch(this.url + path).then(async (res) => {
       const response = await res.json();
       //  console.log('RPC client', 'response', response);
@@ -17,7 +16,6 @@ export class HttpClient {
   }
 
   public post(path: string, body: Record<string, unknown>): Promise<any> {
-    // console.log('RPC client', 'request', request);
     return fetch(this.url + path, {
       method: 'POST',
       headers: defaultHeaders,

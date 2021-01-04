@@ -1,16 +1,10 @@
-import { VoteAccountInfo } from '@solana/web3.js';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getHttpClient } from '../../client/solrpc';
 import { getClient } from '../../client/web3sol';
 import { CONFIG_PROGRAM_ADDRESS } from '../../config/constants';
 import { cache } from '../../utils/cache';
-
-interface IValidatorInfo extends VoteAccountInfo {
-  deliquent: boolean;
-  epochCredits: [any];
-  activatedStake: number;
-  info: any;
-}
+import fs from 'fs';
+import { IValidatorInfo } from '../../redux/types';
 
 const stakeSort = (a: any, b: any) => {
   if (a.activatedStake === b.activatedStake) {
@@ -32,15 +26,18 @@ const getValidators = (cluster): Promise<IValidatorInfo[]> => {
         delete node.epochCredits;
         node.activatedStake = Math.round(node.activatedStake * 0.000000001);
       });
+
+      // XXX check deliquency here
       (nodes.delinquent as IValidatorInfo[]).forEach((node) => {
         node.deliquent = true;
         delete node.epochCredits;
         node.activatedStake = Math.round(node.activatedStake * 0.000000001);
       });
 
-      const allNodes = (nodes.current as IValidatorInfo[]).concat(
-        nodes.delinquent as IValidatorInfo[]
-      );
+      const allNodes = nodes.current as IValidatorInfo[];
+      // .concat(
+      //   nodes.delinquent as IValidatorInfo[]
+      // );
       allNodes.sort(stakeSort);
       return allNodes;
     });
@@ -75,18 +72,45 @@ const getValidatorsSet = (cluster: string): Promise<IValidatorInfo[]> => {
   return new Promise((resolve) => {
     const cacheKey = `validators-${cluster}`;
     const validators = cache.get(cacheKey) as IValidatorInfo[];
+    const tempPath = `./temp/cache_${cluster}.json`;
     if (validators == undefined) {
-      console.log('fetching validators');
-      Promise.all([getValidators(cluster), getValidatorInfo(cluster)]).then((data) => {
-        data[0].forEach((validator, i) => {
-          if (data[1][validator.nodePubkey]) {
-            data[0][i].info = data[1][validator.nodePubkey];
-          }
-        });
+      let validatorSet = [];
 
-        cache.set(cacheKey, data[0]);
-        resolve(data[0]);
-      });
+      // temporarly improve development reload times
+      if (process.env.NODE_ENV === 'development') {
+        try {
+          if (fs.existsSync(tempPath)) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            validatorSet = JSON.parse(fs.readFileSync(tempPath));
+            console.log('got from cache file');
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      if (Array.isArray(validatorSet) && validatorSet.length === 0) {
+        console.log('fetching validators from blockchain');
+        Promise.all([getValidators(cluster), getValidatorInfo(cluster)]).then((data) => {
+          data[0].forEach((validator, i) => {
+            if (data[1][validator.nodePubkey]) {
+              data[0][i].info = data[1][validator.nodePubkey];
+            }
+          });
+
+          validatorSet = data[0];
+          cache.set(cacheKey, validatorSet);
+
+          if (process.env.NODE_ENV === 'development') {
+            fs.writeFileSync(tempPath, JSON.stringify(validatorSet));
+          }
+          resolve(validatorSet);
+        });
+      } else {
+        cache.set(cacheKey, validatorSet);
+        resolve(validatorSet);
+      }
     } else {
       console.log('got from cache');
       resolve(validators);
@@ -103,6 +127,6 @@ export default (
   return getValidatorsSet(req.query.cluster as string).then((data) => {
     // TODO proper error management
     res.statusCode = 200;
-    res.json(data[0]);
+    res.json(data);
   });
 };
