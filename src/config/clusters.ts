@@ -9,14 +9,9 @@ export const clusters: { [key: string]: ICluster } = {
     url: 'http://168.119.49.27:8899',
     explorerQuery: '?cluster=testnet',
   },
-  devnet: {
-    displayName: 'Devnet',
-    url: 'https://devnet.solana.com',
-    explorerQuery: '?cluster=devnet',
-  },
 };
 
-export const defaultCluster = 'devnet';
+export const defaultCluster = 'testnet';
 
 interface ICluster {
   displayName: string;
