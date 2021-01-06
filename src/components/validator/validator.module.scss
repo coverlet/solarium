@@ -1,0 +1,37 @@
+.validator-container {
+  display: flex;
+
+  .avatar-container {
+    width: 48px;
+    padding-top: 4px;
+  }
+  .avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 24px;
+    text-transform: uppercase;
+  }
+
+  .name {
+    width: 20%;
+  }
+
+  .score {
+    width: 100px;
+  }
+
+  .stake {
+    flex: 1;
+  }
+
+  .slots {
+    width: 100px;
+  }
+
+  .version {
+    width: 50px;
+  }
+}

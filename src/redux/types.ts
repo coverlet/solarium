@@ -37,6 +37,11 @@ export interface IValidatorInfo {
   skipped_slot_percent: string;
   ping_time: number;
   url: string;
+  pic?: {
+    file: string;
+    x: number;
+    y: number;
+  };
 }
 
 export interface IValidators {

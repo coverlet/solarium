@@ -2,8 +2,17 @@
   margin-top: 16px;
 
   .rs-placeholder-paragraph-graph {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     margin-top: 8px;
+    border-radius: 8px;
+  }
+
+  .rs-placeholder-paragraph-rows {
+    p {
+      margin-top: 14px !important;
+      width: 98% !important;
+      border-radius: 4px;
+    }
   }
 }
