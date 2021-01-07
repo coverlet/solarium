@@ -8,8 +8,8 @@ import './validators-list.module.scss';
 import { Validator } from '../validator/validator';
 
 let interval;
-const startingParagraphs = 6;
-const maxParagraphs = 12;
+const startingParagraphs = 12;
+const maxParagraphs = 20;
 
 export const ValidatorsList = (): ReactElement => {
   const dispatch = useDispatch();
@@ -58,6 +58,9 @@ export const ValidatorsList = (): ReactElement => {
               rows={1}
               active={true}
               rowHeight={24}
+              style={{
+                opacity: `${(paragraphs - i) / paragraphs}`,
+              }}
             />
           ))}
         </>
