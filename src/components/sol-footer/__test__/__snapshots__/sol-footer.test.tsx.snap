@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`footer components renders 1`] = `
+<DocumentFragment>
+  <div
+    class="footer"
+  >
+    © 2021
+  </div>
+</DocumentFragment>
+`;
