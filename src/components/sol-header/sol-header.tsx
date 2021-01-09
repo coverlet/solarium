@@ -10,7 +10,7 @@ export const SolHeader = (): ReactElement => {
   const cluster = useSelector(selectCluster);
   const dispatch = useDispatch();
   return (
-    <div className="sol-header">
+    <div className="sol-header box">
       <div className="logo">Solarium</div>
       <div className="nav">
         <Nav>

@@ -1,9 +1,16 @@
 .validator-container {
   display: flex;
+  // background: linear-gradient(to right, #4f3056, #3a4161);
+  padding: 6px;
+  border-top: 1px solid hsla(0, 0%, 100%, 0.26);
+
+  &:first-child {
+    border-top: none !important;
+  }
 
   .avatar-container {
-    width: 48px;
-    padding-top: 4px;
+    width: 58px;
+    padding: 2px;
   }
   .avatar {
     height: 40px;
@@ -13,14 +20,52 @@
     line-height: 40px;
     font-size: 24px;
     text-transform: uppercase;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 30%);
   }
 
-  .name {
+  .name-container {
     width: 20%;
+
+    .name {
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &.custom {
+        color: #f7f7f782;
+      }
+
+      .rs-icon {
+        padding-left: 6px;
+        font-size: 12px;
+      }
+    }
+
+    .fee {
+      // background-color: #8e09097d;
+      border-radius: 4px;
+      font-weight: bold;
+
+      width: 50px;
+      text-align: center;
+    }
   }
 
   .score {
-    width: 100px;
+    width: 60px;
+
+    .card {
+      background-color: #55619666;
+      width: 40px;
+      font-size: 16px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40px;
+      border-radius: 8px;
+    }
   }
 
   .stake {

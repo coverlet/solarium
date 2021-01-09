@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCluster } from '../../redux/app';
 import { fetchValidators, selectValidators, selectValidatorsLoading } from '../../redux/validators';
 import { Placeholder } from 'rsuite';
+import { Validator } from '../validator/validator';
 
 import './validators-list.module.scss';
-import { Validator } from '../validator/validator';
 
 let interval;
 const startingParagraphs = 12;
 const maxParagraphs = 20;
 
-export const ValidatorsList = (): ReactElement => {
+const ValidatorsListComponent = (): ReactElement => {
   const dispatch = useDispatch();
   const cluster = useSelector(selectCluster);
   const validators = useSelector(selectValidators);
@@ -45,8 +45,7 @@ export const ValidatorsList = (): ReactElement => {
   }, [validatorsLoading]);
 
   return (
-    <div className="validatos-list">
-      Validators
+    <div className="validatos-list box">
       {validatorsLoading && (
         <>
           {[...Array(paragraphs)].map((e, i) => (
@@ -65,13 +64,10 @@ export const ValidatorsList = (): ReactElement => {
           ))}
         </>
       )}
-      {!validatorsLoading && (
-        <div>
-          {validators.map((validator) => (
-            <Validator key={validator.account} validator={validator} />
-          ))}
-        </div>
-      )}
+      {!validatorsLoading &&
+        validators.map((validator) => <Validator key={validator.account} validator={validator} />)}
     </div>
   );
 };
+
+export const ValidatorsList = React.memo(ValidatorsListComponent);
