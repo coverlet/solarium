@@ -8,6 +8,7 @@ import { createSelector } from 'reselect';
 import { IRedux, IValidatorInfo, ValidatorsSort, ValidatorsSorter } from '../../redux/types';
 
 import './validators-list.module.scss';
+import { ValidatorsFilter } from '../validators-filter/validators-filter';
 
 const sortAttributes = {
   [ValidatorsSort.stake]: 'active_stake_sol',
@@ -50,6 +51,7 @@ const ValidatorsListComponent = (): ReactElement => {
   const validatorsLoading = useSelector(selectValidatorsLoading);
   const [paragraphs, setParagraphs] = useState(startingParagraphs);
   const [maxStake, setMaxStale] = useState(0);
+  const [width, setWidth] = useState(0);
 
   // TODO calculate window space and add placeholders to fit it
 
@@ -61,8 +63,16 @@ const ValidatorsListComponent = (): ReactElement => {
       }
     });
 
-    setMaxStale(_maxStake);
+    setTimeout(() => {
+      setMaxStale(_maxStake);
+    }, 200);
   }, [validators]);
+
+  useEffect(() => {
+    if (validatorsLoading) {
+      setMaxStale(0);
+    }
+  }, [validatorsLoading]);
 
   useEffect(() => {
     dispatch(fetchValidators());
@@ -90,8 +100,15 @@ const ValidatorsListComponent = (): ReactElement => {
     };
   }, [validatorsLoading]);
 
+  const [showChild, setShowChild] = useState(false);
+
+  useEffect(() => {
+    setShowChild(true);
+  }, []);
+
   return (
     <div className="validatos-list box">
+      {showChild && <ValidatorsFilter setWidth={setWidth} />}
       {validatorsLoading && (
         <>
           <Loader center content="loading" />
@@ -113,7 +130,12 @@ const ValidatorsListComponent = (): ReactElement => {
       )}
       {!validatorsLoading &&
         validators.map((validator) => (
-          <Validator key={validator.account} validator={validator} maxStake={maxStake} />
+          <Validator
+            key={validator.account}
+            validator={validator}
+            maxStake={maxStake}
+            stakeWidth={width}
+          />
         ))}
     </div>
   );

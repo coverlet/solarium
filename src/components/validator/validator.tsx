@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { ReactElement, useMemo } from 'react';
+import { ReactElement, useEffect, useMemo, useRef, useState } from 'react';
 import './validator.module.scss';
 import { IValidatorInfo } from '../../redux/types';
 import { SPRITE_BASE_URL } from '../../config/constants';
@@ -9,15 +9,19 @@ import { Icon } from 'rsuite';
 import { clamp } from '../../utils/clamp';
 import { scale } from '../../utils/scale';
 import { formatNumber } from '../../utils/format-number';
+import useVisibilitySensor from '@rooks/use-visibility-sensor';
 
 export interface IValidatorProps {
   validator: IValidatorInfo;
   maxStake: number;
+  stakeWidth?: number;
 }
 
-console.log(scale(20, 0, 20, 160, 90));
-
-export const ValidatorComponent = ({ validator, maxStake }: IValidatorProps): ReactElement => {
+export const ValidatorComponent = ({
+  validator,
+  maxStake,
+  stakeWidth,
+}: IValidatorProps): ReactElement => {
   // TODO memoize this and stake
   const feeBgColor = useMemo(() => {
     const clampedFee = clamp(validator.commission, 0, 40);
@@ -34,6 +38,20 @@ export const ValidatorComponent = ({ validator, maxStake }: IValidatorProps): Re
     return bgColor;
   }, [validator]);
 
+  // const [show, setShow] = useState(false);
+
+  // const rootNode = useRef(null);
+  // const { isVisible } = useVisibilitySensor(rootNode, {
+  //   intervalCheck: false,
+  //   scrollCheck: true,
+  //   resizeCheck: true,
+  // });
+
+  // useEffect(() => {
+  //   isVisible && setShow(true);
+  // }, [isVisible]);
+
+  // ref={rootNode}
   return (
     <div className={`validator-container  ${validator.delinquent && 'deliquent'}`}>
       <div className="avatar-container">
@@ -79,6 +97,7 @@ export const ValidatorComponent = ({ validator, maxStake }: IValidatorProps): Re
           className="stake-graph"
           style={{
             width: `${maxStake ? (validator.active_stake_sol * 100) / maxStake : 0}%`,
+            backgroundSize: `${stakeWidth}px`,
           }}
         >
           ◎{formatNumber(validator.active_stake_sol)}
