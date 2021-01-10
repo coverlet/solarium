@@ -1,11 +1,18 @@
 import { createSlice, Dispatch } from '@reduxjs/toolkit';
 import { getValidators } from '../client/api';
-import { IRedux, IValidatorInfo, IValidators, IValidatorsList } from './types';
+import { lamportsToSol } from '../utils/convert-sol';
+import { IRedux, IValidatorInfo, IValidators, ValidatorsSort } from './types';
 
 const initialState: IValidators = {
   fetchingCluster: '',
   isFetching: false,
   validators: [],
+  display: {
+    sort: {
+      by: ValidatorsSort.stake,
+      direction: 'desc',
+    },
+  },
 };
 
 const validatorsSlice = createSlice({
@@ -44,6 +51,11 @@ export const fetchValidators = () => (dispatch: Dispatch, getState: () => IRedux
   dispatch(setFetching({ cluster: state.app.cluster, isFetching: true }));
 
   getValidators(state.app.cluster).then((data) => {
+    // XXX is this really that bad?...
+    // populate active_stake_sol
+    data.forEach((v: IValidatorInfo) => {
+      v.active_stake_sol = lamportsToSol(v.active_stake);
+    });
     dispatch(setValidators(data));
   });
 };

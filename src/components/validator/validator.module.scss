@@ -8,6 +8,10 @@
     border-top: none !important;
   }
 
+  &.deliquent {
+    background-color: #9a3c3c78;
+  }
+
   .avatar-container {
     width: 58px;
     padding: 2px;
@@ -65,18 +69,48 @@
       align-items: center;
       height: 40px;
       border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
   }
 
   .stake {
     flex: 1;
+    display: flex;
+
+    .stake-graph {
+      background-color: #424a70;
+      /* display: flex; */
+      border-radius: 8px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding-left: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: width 0.5s;
+    }
   }
 
   .slots {
     width: 100px;
+    text-align: center;
   }
 
   .version {
-    width: 50px;
+    width: 100px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .version-tag {
+      overflow: hidden;
+      background-color: #45607785;
+      border-radius: 4px;
+      padding: 2px 4px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 80px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
   }
 }

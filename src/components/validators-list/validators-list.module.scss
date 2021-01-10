@@ -1,7 +1,18 @@
 .validatos-list {
   margin-top: 16px;
+  min-height: 100vh;
   // padding: 8px;
   // background-color: #303054;
+
+  .placeholder {
+    border-top: 1px solid hsla(0, 0%, 100%, 0.1);
+    padding: 4px 8px;
+    height: 57px;
+
+    &:first-child {
+      border-top: none !important;
+    }
+  }
 
   .rs-placeholder-paragraph-graph {
     width: 40px;

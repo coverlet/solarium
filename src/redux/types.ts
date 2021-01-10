@@ -1,5 +1,3 @@
-import { VoteAccountInfo } from '@solana/web3.js';
-
 export interface IRedux {
   app: IApp;
   validators: IValidators;
@@ -30,6 +28,7 @@ export interface IValidatorInfo {
   published_information_score: number;
   security_report_score: number;
   active_stake: string;
+  active_stake_sol?: number;
   commission: number;
   delinquent: string;
   vote_account: string;
@@ -44,10 +43,23 @@ export interface IValidatorInfo {
   };
 }
 
+export enum ValidatorsSort {
+  stake,
+  score,
+}
+
+export interface ValidatorsSorter {
+  by: ValidatorsSort;
+  direction: 'asc' | 'desc';
+}
+
 export interface IValidators {
   fetchingCluster: string;
   isFetching: boolean;
   validators: IValidatorInfo[];
+  display: {
+    sort: ValidatorsSorter;
+  };
 }
 
 // TODO normalize validators to this type

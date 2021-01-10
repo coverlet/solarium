@@ -8,16 +8,16 @@ import React from 'react';
 import { Icon } from 'rsuite';
 import { clamp } from '../../utils/clamp';
 import { scale } from '../../utils/scale';
-import { lamportsToSol } from '../../utils/convert-sol';
 import { formatNumber } from '../../utils/format-number';
 
 export interface IValidatorProps {
   validator: IValidatorInfo;
+  maxStake: number;
 }
 
 console.log(scale(20, 0, 20, 160, 90));
 
-export const ValidatorComponent = ({ validator }: IValidatorProps): ReactElement => {
+export const ValidatorComponent = ({ validator, maxStake }: IValidatorProps): ReactElement => {
   // TODO memoize this and stake
   const feeBgColor = useMemo(() => {
     const clampedFee = clamp(validator.commission, 0, 40);
@@ -35,7 +35,7 @@ export const ValidatorComponent = ({ validator }: IValidatorProps): ReactElement
   }, [validator]);
 
   return (
-    <div className="validator-container">
+    <div className={`validator-container  ${validator.delinquent && 'deliquent'}`}>
       <div className="avatar-container">
         <div
           className="avatar"
@@ -52,7 +52,7 @@ export const ValidatorComponent = ({ validator }: IValidatorProps): ReactElement
         ></div>
       </div>
       <div className="name-container">
-        <div className={`name ${!validator.name && 'custom'}`}>
+        <div className={`name ${!validator.name ? 'custom' : null}`}>
           {validator.www_url ? (
             <a href={validator.www_url} rel="noreferrer" target="_blank">
               {validator.name || formatAddress(validator.account)}
@@ -74,9 +74,20 @@ export const ValidatorComponent = ({ validator }: IValidatorProps): ReactElement
       <div className="score">
         <div className="card">{validator.total_score}</div>
       </div>
-      <div className="stake">◎{formatNumber(lamportsToSol(validator.active_stake))}</div>
+      <div className="stake">
+        <div
+          className="stake-graph"
+          style={{
+            width: `${maxStake ? (validator.active_stake_sol * 100) / maxStake : 0}%`,
+          }}
+        >
+          ◎{formatNumber(validator.active_stake_sol)}
+        </div>
+      </div>
       <div className="slots">{validator.skipped_slots}</div>
-      <div className="version">{validator.software_version}</div>
+      <div className="version">
+        <div className="version-tag">{validator.software_version}</div>
+      </div>
     </div>
   );
 };
