@@ -5,18 +5,19 @@ import { fetchValidators, selectValidatorsLoading } from '../../redux/validators
 import { Loader, Placeholder } from 'rsuite';
 import { Validator } from '../validator/validator';
 import { createSelector } from 'reselect';
-import { IRedux, IValidatorInfo, ValidatorsSort, ValidatorsSorter } from '../../redux/types';
+import { IRedux, IValidatorInfo, EValidatorsSort, IValidatorsSorter } from '../../redux/types';
 
 import './validators-list.module.scss';
 import { ValidatorsFilter } from '../validators-filter/validators-filter';
 
 const sortAttributes = {
-  [ValidatorsSort.stake]: 'active_stake_sol',
-  [ValidatorsSort.score]: 'total_score',
+  [EValidatorsSort.stake]: 'active_stake_sol',
+  [EValidatorsSort.score]: 'total_score',
+  [EValidatorsSort.fee]: 'commission',
 };
 
 const getValidatorsSorter = (
-  sort: ValidatorsSorter
+  sort: IValidatorsSorter
 ): ((a: IValidatorInfo, b: IValidatorInfo) => number) => {
   const direction = sort.direction === 'asc' ? 1 : -1;
   return (a, b) => {

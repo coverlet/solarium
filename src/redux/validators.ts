@@ -1,7 +1,7 @@
 import { createSlice, Dispatch } from '@reduxjs/toolkit';
 import { getValidators } from '../client/api';
 import { lamportsToSol } from '../utils/convert-sol';
-import { IRedux, IValidatorInfo, IValidators, ValidatorsSort } from './types';
+import { IRedux, IValidatorInfo, IValidators, EValidatorsSort, IValidatorsSorter } from './types';
 
 const initialState: IValidators = {
   fetchingCluster: '',
@@ -9,10 +9,15 @@ const initialState: IValidators = {
   validators: [],
   display: {
     sort: {
-      by: ValidatorsSort.stake,
+      by: EValidatorsSort.stake,
       direction: 'desc',
     },
   },
+};
+
+const sortDefaults = {
+  [EValidatorsSort.stake]: 'desc',
+  [EValidatorsSort.score]: 'desc',
 };
 
 const validatorsSlice = createSlice({
@@ -30,13 +35,28 @@ const validatorsSlice = createSlice({
       fetchingCluster: action.payload.cluster,
       isFetching: action.payload.isFetching,
     }),
+    setSorter: (state, action) => {
+      console.log(action.payload);
+      let direction;
+      if (action.payload === state.display.sort.by) {
+        direction = state.display.sort.direction === 'asc' ? 'desc' : 'asc';
+      } else {
+        direction = sortDefaults[action.payload];
+      }
+
+      state.display.sort = {
+        by: action.payload,
+        direction,
+      };
+    },
   },
 });
 
-export const { setValidators, setFetching } = validatorsSlice.actions;
+export const { setValidators, setFetching, setSorter } = validatorsSlice.actions;
 
 export const selectValidators = (state: IRedux): IValidatorInfo[] => state.validators.validators;
 export const selectValidatorsLoading = (state: IRedux): boolean => state.validators.isFetching;
+export const selectSort = (state: IRedux): IValidatorsSorter => state.validators.display.sort;
 
 export default validatorsSlice.reducer;
 

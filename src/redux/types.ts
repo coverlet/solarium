@@ -43,13 +43,14 @@ export interface IValidatorInfo {
   };
 }
 
-export enum ValidatorsSort {
+export enum EValidatorsSort {
+  fee,
   stake,
   score,
 }
 
-export interface ValidatorsSorter {
-  by: ValidatorsSort;
+export interface IValidatorsSorter {
+  by: EValidatorsSort;
   direction: 'asc' | 'desc';
 }
 
@@ -58,7 +59,7 @@ export interface IValidators {
   isFetching: boolean;
   validators: IValidatorInfo[];
   display: {
-    sort: ValidatorsSorter;
+    sort: IValidatorsSorter;
   };
 }
 

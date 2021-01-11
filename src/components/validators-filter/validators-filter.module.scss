@@ -1,3 +1,35 @@
-.blank {
-  height: 92px;
+.validator-filter {
+  display: flex;
+  min-height: 64px;
+  align-items: flex-end;
+  background-color: #28304e;
+  border-radius: 8px 8px 0 0;
+
+  .avatar-container {
+    width: 58px;
+  }
+  .name-container {
+    width: 20%;
+    text-align: center;
+  }
+
+  .score {
+    width: 60px;
+    text-align: center;
+  }
+
+  .stake {
+    flex: 1;
+    text-align: center;
+  }
+
+  .slots {
+    width: 100px;
+    text-align: center;
+  }
+
+  .version {
+    width: 100px;
+    text-align: center;
+  }
 }
