@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`footer components displays icon 1`] = `
+<DocumentFragment>
+  <a
+    class="validators-sort-label"
+    href="#"
+  >
+    LABEL
+    <i
+      class="rs-icon rs-icon-long-arrow-up"
+    />
+  </a>
+</DocumentFragment>
+`;
+
+exports[`footer components displays icon 2`] = `
+<DocumentFragment>
+  <a
+    class="validators-sort-label"
+    href="#"
+  >
+    LABEL
+    <i
+      class="rs-icon rs-icon-long-arrow-down"
+    />
+  </a>
+</DocumentFragment>
+`;
+
+exports[`footer components renders 1`] = `
+<DocumentFragment>
+  <a
+    class="validators-sort-label"
+    href="#"
+  >
+    LABEL
+  </a>
+</DocumentFragment>
+`;

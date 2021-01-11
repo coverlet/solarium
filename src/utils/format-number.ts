@@ -21,13 +21,16 @@ export const formatNumber = (number: number | BN, options: IFormatNumberOptions 
 
   options = { ...defaultFormatOptions, ...options };
 
+  const minDigits =
+    typeof options.minDigits === 'function' ? options.minDigits(number) : options.minDigits;
+  const maxDigits =
+    typeof options.maxDigits === 'function' ? options.maxDigits(number) : options.maxDigits;
+
   const formattedNumber = new Intl.NumberFormat(getLocale(), {
     style: options.currency ? 'currency' : 'decimal',
     currency: options.currency ? options.currency : undefined,
-    minimumFractionDigits:
-      typeof options.minDigits === 'function' ? options.minDigits(number) : options.minDigits,
-    maximumFractionDigits:
-      typeof options.maxDigits === 'function' ? options.maxDigits(number) : options.maxDigits,
+    minimumFractionDigits: minDigits,
+    maximumFractionDigits: maxDigits > minDigits ? maxDigits : minDigits,
   }).format(number);
 
   return formattedNumber;
