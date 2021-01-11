@@ -23,3 +23,6 @@ jobs:
 
       - name: Typescript check
         run: npx tsc --noEmit  
+
+      - name: Run Unit Tests
+        run: npm test  
